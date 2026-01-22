@@ -129,7 +129,9 @@ if (isLate===true){
 // Set isValidSubmission to true only if ALL conditions are met
 let isValidSubmission;
 // (your code here)
-if(assignment.points_possible>0 && submission.submission.score>=0 && submission.submission.score<=assignment.points_possible && submission.learner_id === null || submission.learner_id===undefined){
+const pointsWithinArea = submission.submission.score>=0 && submission.submission.score<=assignment.points_possible
+
+if(assignment.points_possible>0 && pointsWithinArea && submission.learner_id == false){
     isValidSubmission=true;
 } else{isValidSubmission=false;};
 
