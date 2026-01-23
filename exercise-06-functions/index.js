@@ -18,37 +18,48 @@ const sampleSubmission = {
 // Parameters: score (number), pointsPossible (number)
 // Returns: percentage as a number (score / pointsPossible * 100)
 // (your code here)
+function calculatePercentage(score, pointsPossible){
+    return (score/pointsPossible)*100;
+};
 
 
 // Test Task 1
 console.log("=== Task 1: Calculate Percentage ===");
 // TODO: Uncomment the line below after creating the function
-// console.log("85/100 =", calculatePercentage(85, 100) + "%");
+ console.log("85/100 =", calculatePercentage(85, 100) + "%");
 
 // Task 2: Create a function to check if a submission is late
 // TODO: Create a function called isSubmissionLate
 // Parameters: submittedAt (string), dueAt (string)
 // Returns: boolean (true if submittedAt > dueAt)
 // (your code here)
+function isSubmissionLate(submittedAt, dueAt){
+    if (submittedAt>dueAt){
+        return true;
+    } else{return false;};
+
+};
 
 
 // Test Task 2
 console.log("\n=== Task 2: Check if Late ===");
 // TODO: Uncomment the lines below after creating the function
-// console.log("2024-01-16 vs 2024-01-15:", isSubmissionLate("2024-01-16", "2024-01-15"));
-// console.log("2024-01-14 vs 2024-01-15:", isSubmissionLate("2024-01-14", "2024-01-15"));
+console.log("2024-01-16 vs 2024-01-15:", isSubmissionLate("2024-01-16", "2024-01-15"));
+console.log("2024-01-14 vs 2024-01-15:", isSubmissionLate("2024-01-14", "2024-01-15"));
 
 // Task 3: Create a function to apply late penalty
 // TODO: Create a function called applyLatePenalty
 // Parameters: score (number), pointsPossible (number)
 // Returns: score with 10% of pointsPossible deducted
 // (your code here)
-
+function applyLatePenalty(score, pointsPossible){
+    return score-(pointsPossible*.1);
+};
 
 // Test Task 3
 console.log("\n=== Task 3: Apply Late Penalty ===");
 // TODO: Uncomment the line below after creating the function
-// console.log("Score 85 with penalty (100 max):", applyLatePenalty(85, 100));
+ console.log("Score 85 with penalty (100 max):", applyLatePenalty(85, 100));
 
 // Task 4: Create a function that uses other functions
 // TODO: Create a function called calculateFinalScore
@@ -56,19 +67,32 @@ console.log("\n=== Task 3: Apply Late Penalty ===");
 // Logic: If submission is late, apply penalty; otherwise return original score
 // Use the isSubmissionLate and applyLatePenalty functions you created above
 // (your code here)
+function calculateFinalScore(score, pointsPossible, submittedAt, dueAt){
+    if(isSubmissionLate(submittedAt, dueAt)===true){
+        return applyLatePenalty(score, pointsPossible);
+    } else{return score;};
+};
 
 
 // Test Task 4
 console.log("\n=== Task 4: Calculate Final Score ===");
 // TODO: Uncomment the lines below after creating the function
-// console.log("On time (85/100):", calculateFinalScore(85, 100, "2024-01-14", "2024-01-15"));
-// console.log("Late (85/100):", calculateFinalScore(85, 100, "2024-01-16", "2024-01-15"));
+console.log("On time (85/100):", calculateFinalScore(85, 100, "2024-01-14", "2024-01-15"));
+console.log("Late (85/100):", calculateFinalScore(85, 100, "2024-01-16", "2024-01-15"));
 
 // Task 5: Create a function to find an assignment by id
 // TODO: Create a function called findAssignmentById
 // Parameters: assignments (array), assignmentId (number)
 // Returns: the assignment object with matching id, or null if not found
 // (your code here)
+function findAssignmentById(assignments, assignment_id){
+    for(let x = 0; x<assignments.length; x+=1){
+        if(assignments[x].id===assignment_id){
+            return assignments[x].name;
+        };
+    };
+    return null;
+}
 
 
 // Test Task 5
@@ -78,13 +102,33 @@ const assignments = [
 ];
 console.log("\n=== Task 5: Find Assignment ===");
 // TODO: Uncomment the line below after creating the function
-// console.log("Assignment 2:", findAssignmentById(assignments, 2));
+console.log("Assignment 2:", findAssignmentById(assignments, 2));
 
 // Task 6: Create a function to get all submissions for a learner
 // TODO: Create a function called getSubmissionsForLearner
 // Parameters: submissions (array), learnerId (number)
 // Returns: array of submissions that belong to the specified learner
 // (your code here)
+function getSubmissionsForLearner(submissions, learnedId){
+   /* for (submission in submissions){
+
+    } */
+
+    //for(let x = 0; x<submissions.length; x+=1){
+    //    if(submissions[x].learner_id==learnedId){
+    //        return submissions[x];
+    //    };
+    //}; // 
+    let x = 0;
+    tempSumbmissions = [];
+    while(x<submissions.length){
+        if(submissions[x].learner_id===learnedId){
+            tempSumbmissions[x] = submissions[x];
+        }   
+        x+=1;
+    }
+    return tempSumbmissions;
+};
 
 
 // Test Task 6
@@ -95,32 +139,38 @@ const submissions = [
 ];
 console.log("\n=== Task 6: Get Learner Submissions ===");
 // TODO: Uncomment the line below after creating the function
-// console.log("Learner 1 submissions:", getSubmissionsForLearner(submissions, 1));
+console.log("Learner 1 submissions:", getSubmissionsForLearner(submissions, 1));
 
 // Task 7: Create a function to calculate weighted average
 // TODO: Create a function called calculateWeightedAverage
 // Parameters: totalEarned (number), totalPossible (number)
 // Returns: weighted average as a decimal (e.g., 0.85 for 85%)
 // (your code here)
+function calculateWeightedAverage(totalEarned, totalPossible){
+    return totalEarned/totalPossible
+}
 
 
 // Test Task 7
 console.log("\n=== Task 7: Weighted Average ===");
 // TODO: Uncomment the line below after creating the function
-// console.log("240/300 =", calculateWeightedAverage(240, 300));
+console.log("240/300 =", calculateWeightedAverage(240, 300));
 
 // Task 8: Create a function to validate course_id match
 // TODO: Create a function called validateCourseMatch
 // Parameters: courseId (number), assignmentGroupCourseId (number)
 // Returns: boolean (true if they match)
 // (your code here)
+function validateCourseMatch(courseId, assignmentGroupCourseId){
+    return courseId===assignmentGroupCourseId;
+};
 
 
 // Test Task 8
 console.log("\n=== Task 8: Validate Course Match ===");
 // TODO: Uncomment the lines below after creating the function
-// console.log("101 vs 101:", validateCourseMatch(101, 101));
-// console.log("101 vs 102:", validateCourseMatch(101, 102));
+ console.log("101 vs 101:", validateCourseMatch(101, 101));
+ console.log("101 vs 102:", validateCourseMatch(101, 102));
 
 // Task 9: Create a comprehensive processing function
 // TODO: Create a function called processLearnerSubmission
@@ -128,6 +178,9 @@ console.log("\n=== Task 8: Validate Course Match ===");
 // Returns: an object with { assignment_id, percentage }
 // Use the helper functions you created above
 // (your code here)
+function processLearnerSubmission(submission, assignment){
+    object ={assignment_id:submission.assignment_id ,percentage:calculateFinalScore(submission.submission.score, assignment.points_possible)}
+    return object};
 
 
 // Test Task 9
@@ -139,4 +192,4 @@ const testSubmission = {
     submission: { submitted_at: "2024-01-14", score: 85 }
 };
 // TODO: Uncomment the line below after creating the function
-// console.log("Result:", processLearnerSubmission(testSubmission, testAssignment));
+console.log("Result:", processLearnerSubmission(testSubmission, testAssignment));
