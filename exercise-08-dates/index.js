@@ -7,8 +7,8 @@ const dueDateString = "2024-01-15";
 const submittedDateString = "2024-01-16";
 
 // TODO: Create Date objects
-const dueDate = null; // Replace with: new Date(dueDateString)
-const submittedDate = null; // Replace with: new Date(submittedDateString)
+const dueDate = new Date(dueDateString); // Replace with: new Date(dueDateString)
+const submittedDate = new Date(submittedDateString); // Replace with: new Date(submittedDateString)
 
 console.log("Due Date:", dueDate);
 console.log("Submitted Date:", submittedDate);
@@ -20,7 +20,7 @@ const date1 = new Date("2024-01-15");
 const date2 = new Date("2024-01-16");
 
 // TODO: Check if date2 is after date1
-const isLate = null; // Replace with comparison
+const isLate = date1<date2; // Replace with comparison
 
 console.log("Is date2 after date1?", isLate);
 
@@ -32,13 +32,16 @@ console.log("\n=== Task 3: Check if Late ===");
 
 function isSubmissionLate(submittedAt, dueAt) {
     // TODO: Convert strings to Date objects and compare
+   // console.log(submittedAt>dueAt);
+    return submittedAt>dueAt;
+    
 }
 
 // Test the function
 // TODO: Uncomment after creating function
-// console.log("Submitted 2024-01-16, Due 2024-01-15:", isSubmissionLate("2024-01-16", "2024-01-15"));
-// console.log("Submitted 2024-01-14, Due 2024-01-15:", isSubmissionLate("2024-01-14", "2024-01-15"));
-// console.log("Submitted 2024-01-15, Due 2024-01-15:", isSubmissionLate("2024-01-15", "2024-01-15"));
+console.log("Submitted 2024-01-16, Due 2024-01-15:", isSubmissionLate("2024-01-16", "2024-01-15"));
+console.log("Submitted 2024-01-14, Due 2024-01-15:", isSubmissionLate("2024-01-14", "2024-01-15"));
+console.log("Submitted 2024-01-15, Due 2024-01-15:", isSubmissionLate("2024-01-15", "2024-01-15"));
 
 // Task 4: Check if assignment is due yet
 // TODO: Create a function called isAssignmentDue
@@ -48,13 +51,14 @@ console.log("\n=== Task 4: Check if Assignment Due ===");
 
 function isAssignmentDue(dueAt, currentDate) {
     // TODO: Convert to Date objects and compare
+    return currentDate>=dueAt;
 }
 
 // Test with current date
 const today = "2026-01-21"; // Current date from context
 // TODO: Uncomment after creating function
-// console.log("Assignment due 2024-01-15, Today 2026-01-21:", isAssignmentDue("2024-01-15", today));
-// console.log("Assignment due 2026-01-25, Today 2026-01-21:", isAssignmentDue("2026-01-25", today));
+console.log("Assignment due 2024-01-15, Today 2026-01-21:", isAssignmentDue("2024-01-15", today));
+console.log("Assignment due 2026-01-25, Today 2026-01-21:", isAssignmentDue("2026-01-25", today));
 
 // Task 5: Filter assignments by due date
 // TODO: Given an array of assignments and a current date,
@@ -69,12 +73,20 @@ const assignments = [
 
 function filterDueAssignments(assignments, currentDate) {
     // TODO: Filter and return only assignments where due_at <= currentDate
+    let dueAssignments = [];
+    for (let i=0; i<assignments.length; i+=1){
+      
+        if(currentDate<=assignments[i].due_at){
+            dueAssignments.push(assignments[i].id);
+        }
+    }
+    return dueAssignments;
 }
 
 // TODO: Uncomment after creating function
-// const dueAssignments = filterDueAssignments(assignments, today);
-// console.log("Assignments due by", today + ":");
-// console.log(dueAssignments);
+ const dueAssignments = filterDueAssignments(assignments, today);
+ console.log("Assignments due by", today + ":");
+ console.log(dueAssignments);
 
 // Task 6: Calculate days late
 // TODO: Create a function that calculates how many days late a submission is
@@ -84,13 +96,20 @@ console.log("\n=== Task 6: Calculate Days Late ===");
 
 function calculateDaysLate(submittedAt, dueAt) {
     // TODO: Calculate difference in days
-    // Hint: 1 day = 24 * 60 * 60 * 1000 milliseconds
+    // Hint: 1 day = 24 * 60 * 60 * 1000 milliseconds <-=------ ASK FOR HELP
+    dueAt = new Date(dueAt); submittedAt=new Date(submittedAt);
+    let result = submittedAt-dueAt;
+    if(dueAt>=submittedAt){
+        return 0;
+    }
+    return result / (1000 * 60 * 60 * 24);
+
 }
 
 // TODO: Uncomment after creating function
-// console.log("Submitted 2024-01-16, Due 2024-01-15:", calculateDaysLate("2024-01-16", "2024-01-15"), "days late");
-// console.log("Submitted 2024-01-18, Due 2024-01-15:", calculateDaysLate("2024-01-18", "2024-01-15"), "days late");
-// console.log("Submitted 2024-01-14, Due 2024-01-15:", calculateDaysLate("2024-01-14", "2024-01-15"), "days late");
+console.log("Submitted 2024-01-16, Due 2024-01-15:", calculateDaysLate("2024-01-16", "2024-01-15"), "days late");
+console.log("Submitted 2024-01-18, Due 2024-01-15:", calculateDaysLate("2024-01-18", "2024-01-15"), "days late");
+console.log("Submitted 2024-01-14, Due 2024-01-15:", calculateDaysLate("2024-01-14", "2024-01-15"), "days late");
 
 // Task 7: Comprehensive date validation
 // TODO: Create a function that validates submission dates
@@ -101,12 +120,21 @@ console.log("\n=== Task 7: Validate Submission Date ===");
 function validateSubmissionDate(submittedAt, currentDate, courseStartDate) {
     // TODO: Add validation logic
     // Return an object: { valid: boolean, error: string or null }
+    submittedAt = new Date(submittedAt); 
+    currentDate=new Date(currentDate); 
+    courseStartDate=new Date(courseStartDate);
+    if(submittedAt>=courseStartDate && submittedAt<=currentDate){
+        return {valid: true, error: null};
+    } else {
+        return {valid: false, error:"Submission cannot be before the start date or be in the future"};
+    };
+
 }
 
 // TODO: Uncomment after creating function
-// console.log("Valid submission:", validateSubmissionDate("2024-01-16", "2026-01-21", "2024-01-01"));
-// console.log("Future submission:", validateSubmissionDate("2026-12-01", "2026-01-21", "2024-01-01"));
-// console.log("Before course start:", validateSubmissionDate("2023-12-15", "2026-01-21", "2024-01-01"));
+console.log("Valid submission:", validateSubmissionDate("2024-01-16", "2026-01-21", "2024-01-01"));
+console.log("Future submission:", validateSubmissionDate("2026-12-01", "2026-01-21", "2024-01-01"));
+console.log("Before course start:", validateSubmissionDate("2023-12-15", "2026-01-21", "2024-01-01"));
 
 // Task 8: SBA-specific logic
 // TODO: Create a function that determines if an assignment should be included in calculations
@@ -115,11 +143,21 @@ console.log("\n=== Task 8: Should Include Assignment ===");
 
 function shouldIncludeAssignment(assignment, currentDate) {
     // TODO: Return true if assignment.due_at <= currentDate
+
+    assignment.due_at = new Date(assignment.due_at);
+    currentDate = new Date(currentDate);
+    if(assignment.due_at<=currentDate){
+        return true;
+    } else{
+        return false;
+    }
+
+
 }
 
 // TODO: Test with various assignments
 // TODO: Uncomment after creating function
-// for (const assignment of assignments) {
-//     const include = shouldIncludeAssignment(assignment, today);
-//     console.log(`${assignment.name} (${assignment.due_at}): ${include ? "INCLUDE" : "EXCLUDE"}`);
-// }
+for (const assignment of assignments) {
+    const include = shouldIncludeAssignment(assignment, today);
+    console.log(`${assignment.name} (${assignment.due_at}): ${include ? "INCLUDE" : "EXCLUDE"}`);
+}
